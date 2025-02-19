@@ -1,7 +1,9 @@
 package com.anararabli.PostgresDEMO.services.impl;
 
+import com.anararabli.PostgresDEMO.dto.DtoCourse;
 import com.anararabli.PostgresDEMO.dto.DtoStudent;
 import com.anararabli.PostgresDEMO.dto.DtoStudentIU;
+import com.anararabli.PostgresDEMO.entity.Course;
 import com.anararabli.PostgresDEMO.entity.Student;
 import com.anararabli.PostgresDEMO.repository.StudentRepository;
 import com.anararabli.PostgresDEMO.services.IStudentService;
@@ -46,14 +48,36 @@ public class StudentServiceImpl implements IStudentService {
 
     @Override
     public DtoStudent getStudentById(Integer id) {
-        DtoStudent dto = new DtoStudent();
+        DtoStudent dtoStudent = new DtoStudent();
         Optional<Student> optionalStudent = studentRepository.findById(id);
-        if (optionalStudent.isPresent()) {
-            Student dbstudent = optionalStudent.get();
-            BeanUtils.copyProperties(dbstudent,dto);
+        if (optionalStudent.isEmpty()) {
+            return null;
         }
-        return dto;
+        Student dbstudent = optionalStudent.get();
+        BeanUtils.copyProperties(dbstudent,dtoStudent);
+
+        if(dbstudent.getCourses()!=null && !dbstudent.getCourses().isEmpty()){
+            for (Course course : dbstudent.getCourses()) {
+                DtoCourse dtoCourse = new DtoCourse();
+                BeanUtils.copyProperties(course,dtoCourse);
+                dtoStudent.getCourses().add(dtoCourse);
+            }
+        }
+        return dtoStudent;
     }
+
+
+//    @Override
+//    public DtoStudent getStudentById(Integer id) {
+//        DtoStudent dto = new DtoStudent();
+//        Optional<Student> optionalStudent = studentRepository.findById(id);
+//        if (optionalStudent.isPresent()) {
+//            Student dbstudent = optionalStudent.get();
+//            BeanUtils.copyProperties(dbstudent,dto);
+//        }
+//        return dto;
+//    }
+
 
     @Override
     public void deleteStudentById(Integer id) {

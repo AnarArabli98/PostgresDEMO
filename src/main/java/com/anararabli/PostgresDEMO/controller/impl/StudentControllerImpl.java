@@ -3,8 +3,6 @@ package com.anararabli.PostgresDEMO.controller.impl;
 import com.anararabli.PostgresDEMO.controller.IStudentController;
 import com.anararabli.PostgresDEMO.dto.DtoStudent;
 import com.anararabli.PostgresDEMO.dto.DtoStudentIU;
-import com.anararabli.PostgresDEMO.entity.Student;
-import com.anararabli.PostgresDEMO.repository.StudentRepository;
 import com.anararabli.PostgresDEMO.services.IStudentService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,19 +31,18 @@ public class StudentControllerImpl implements IStudentController {
 
     @GetMapping(path = "/list/{id}")
     @Override
-    public DtoStudent getStudentById(@PathVariable(name = "id") int id) {
+    public DtoStudent getStudentById(@PathVariable(name = "id") Integer id) {
         return studentService.getStudentById(id);
     }
 
     @DeleteMapping(path = "/deletest/{id}")
     @Override
-    public void deleteStudentById(@PathVariable(name = "id") int id) {
+    public void deleteStudentById(@PathVariable(name = "id") Integer id) {
         studentService.deleteStudentById(id);
     }
 
     @PutMapping(path = "/update/{id}")
-    @Override
-    public DtoStudent updateStudent(@PathVariable(name ="id") Integer id,@RequestBody DtoStudentIU dtoStudentIU) {
+    public DtoStudent updateStudent(@PathVariable(name = "id") Integer id, @RequestBody DtoStudentIU dtoStudentIU) {
 
         return studentService.updateStudent(id, dtoStudentIU);
     }
